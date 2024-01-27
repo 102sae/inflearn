@@ -45,8 +45,10 @@ const Editor = ({ initData, onSubmit }) => {
   //작성중인 일기가 있을 경우
   useEffect(() => {
     if (initData) {
-      setState(initData);
-      date: getFormattedDate(new Date(parseInt(initData.date)));
+      setState({
+        ...initData,
+        date: getFormattedDate(new Date(parseInt(initData.date))),
+      });
     }
   }, [initData]);
 
@@ -84,7 +86,7 @@ const Editor = ({ initData, onSubmit }) => {
           />
         </div>
       </div>
-      <div className="editor_section">
+      <div className="bottom_section">
         {/**버튼 */}
         <Button text={"취소하기"} onClick={handleOnGoBack} />
         <Button text={"작성 완료"} type={"positive"} onClick={handleSubmit} />

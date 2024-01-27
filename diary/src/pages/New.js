@@ -17,7 +17,6 @@ const New = () => {
     const timestamp = new Date(date).getTime();
     console.log(timestamp);
     onCreate(timestamp, content, emotionId);
-
     navigate("/", { replace: true });
   };
   return (

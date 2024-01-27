@@ -34,14 +34,13 @@ const reducer = (state, action) => {
     case "CREATE":
       return [action.data, ...state];
     case "UPDATE": {
+      console.log(action.data);
       return state.map((item) =>
         String(item.id) === String(action.data.id) ? { ...action.data } : item
       );
     }
     case "DELETE":
-      return state.filters(
-        (item) => String(item.id) !== String(action.data.id)
-      );
+      return state.filter((item) => String(item.id) !== String(action.data.id));
     default:
       return state;
   }
@@ -110,7 +109,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/edit" element={<Edit />} />
+            <Route path="/edit/:id" element={<Edit />} />
             <Route path="/new" element={<New />} />
             <Route path="/diary/:id" element={<Diary />} />
           </Routes>
