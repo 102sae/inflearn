@@ -76,3 +76,9 @@ export const getMonthRangeByDate = (date) => {
   ).getTime(); //해당월의 가장 늦은 시간 마지막일 23:59:59
   return { beginTimeStamp, endTImeStamp };
 };
+
+//페이지마다 다른 제목 설정하기
+export const setPagetitle = (title) => {
+  const titleElement = document.getElementsByTagName("title")[0];
+  titleElement.innerText = title;
+};

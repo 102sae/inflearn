@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useDiary from "../hooks/useDiary";
 import Header from "../component/Header";
-import { getFormattedDate } from "../util";
+import { getFormattedDate, setPagetitle } from "../util";
 import Button from "../component/Button";
 import Viewer from "../component/Viewer";
 const Diary = () => {
@@ -15,6 +15,9 @@ const Diary = () => {
   const goEdit = () => {
     navigate(`/edit/${id}`);
   };
+  useEffect(() => {
+    setPagetitle(`${id}번 일기`);
+  }, []);
 
   if (!data) {
     return <div>일기를 불러오는 중...</div>;

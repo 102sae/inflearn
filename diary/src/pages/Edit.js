@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useDiary from "../hooks/useDiary";
 import Header from "../component/Header";
 import Button from "../component/Button";
 import { DiaryDispatchContext } from "../App";
 import Editor from "../component/Editor";
+import { setPagetitle } from "../util";
 
 const Edit = () => {
   const { id } = useParams();
@@ -20,6 +21,10 @@ const Edit = () => {
       navigate("/", { replace: true });
     }
   };
+
+  useEffect(() => {
+    setPagetitle(`${id}번 일기 수정하기`);
+  }, []);
 
   const onSubmit = (data) => {
     if (window.confirm("수정하시겠습니까?")) {
