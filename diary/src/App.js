@@ -6,41 +6,31 @@ import New from "./pages/New";
 import Diary from "./pages/Diary";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 
-const mockdata = [
-  {
-    id: "mock1",
-    date: new Date().getTime() - 1,
-    content: "오늘은 좋은 날이다.",
-    emotionId: 2,
-  },
-  {
-    id: "mock2",
-    date: new Date().getTime() - 2,
-    content: "오늘은 행복한 날이다.",
-    emotionId: 1,
-  },
-  {
-    id: "mock3",
-    date: new Date().getTime() - 3,
-    content: "오늘은 슬픈 날이다.",
-    emotionId: 3,
-  },
-];
-
 const reducer = (state, action) => {
   switch (action.type) {
     case "INIT":
       return action.data;
-    case "CREATE":
-      return [action.data, ...state];
+    case "CREATE": {
+      const newState = [action.data, ...state];
+      localStorage.setItem("diary", JSON.stringify(newState));
+      return newState;
+    }
+
     case "UPDATE": {
-      console.log(action.data);
-      return state.map((item) =>
+      const newState = state.map((item) =>
         String(item.id) === String(action.data.id) ? { ...action.data } : item
       );
+      localStorage.setItem("diary", JSON.stringify(newState));
+
+      return newState;
     }
-    case "DELETE":
-      return state.filter((item) => String(item.id) !== String(action.data.id));
+    case "DELETE": {
+      const newState = state.filter(
+        (item) => String(item.id) !== String(action.data.id)
+      );
+      localStorage.setItem("diary", JSON.stringify(newState));
+      return newState;
+    }
     default:
       return state;
   }
@@ -62,10 +52,21 @@ function App() {
   const idRef = useRef(0);
 
   useEffect(() => {
-    dispatch({
-      type: "INIT",
-      data: mockdata,
-    });
+    const rawData = localStorage.getItem("diary");
+    if (!rawData) {
+      setIsDataLoaded(true);
+      return;
+    }
+    const localData = JSON.parse(rawData);
+    if (localData.length === 0) {
+      setIsDataLoaded(true);
+      return;
+    }
+    //내림차순 정렬 후 id 부여, id 중복 방지
+    localData.sort((a, b) => Number(b.date) - Number(a.date));
+    idRef.current = localData[0].id + 1;
+
+    dispatch({ type: "INIT", data: localData });
     setIsDataLoaded(true);
   }, []);
 
