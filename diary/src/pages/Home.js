@@ -31,8 +31,6 @@ const Home = () => {
     }
   }, [data, pivotDate]);
 
-  console.log(filterdData);
-
   return (
     <div className="Home">
       <Header

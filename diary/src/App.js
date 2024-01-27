@@ -71,6 +71,7 @@ function App() {
   }, []);
 
   const onCreate = (date, content, emotionId) => {
+    console.log(date, content, emotionId);
     dispatch({
       type: "CREATE",
       data: {
