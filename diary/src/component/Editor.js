@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { emotionList, getFormattedDate } from "../util";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
@@ -34,13 +34,13 @@ const Editor = ({ initData, onSubmit }) => {
   const handleOnGoBack = () => {
     navigate(-1);
   };
-
-  const handleChangeEmotion = (emotionId) => {
-    setState({
+  //컴포넌트가 마운트 된 시점이후 다시 생성되지 않도록 useCallback으로 감싸준다.
+  const handleChangeEmotion = useCallback((emotionId) => {
+    setState((state) => ({
       ...state,
       emotionId,
-    });
-  };
+    }));
+  }, []);
 
   //작성중인 일기가 있을 경우
   useEffect(() => {
