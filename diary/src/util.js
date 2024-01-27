@@ -58,3 +58,21 @@ export const emotionList = [
     img: getEmotionImgById(5),
   },
 ];
+
+//해당 월의 시작과 끝을 나타내는 타임스탬프를 반환하는 함수
+export const getMonthRangeByDate = (date) => {
+  const beginTimeStamp = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    1
+  ).getTime(); // 해당 월의 가장 빠른 시간 1일 00:00:00
+  const endTImeStamp = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0,
+    23,
+    59,
+    59
+  ).getTime(); //해당월의 가장 늦은 시간 마지막일 23:59:59
+  return { beginTimeStamp, endTImeStamp };
+};

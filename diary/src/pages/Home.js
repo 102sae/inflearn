@@ -1,23 +1,46 @@
-import React from "react";
-import { useSearchParams } from "react-router-dom";
-import Button from "../component/Button";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../component/Header";
-import Editor from "../component/Editor";
+import Button from "../component/Button";
+import { DiaryStateContext } from "../App";
+import { getMonthRangeByDate } from "../util";
+import DiaryList from "../component/DiaryList";
+
 const Home = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("sort"));
+  const [pivotDate, setPivotDate] = useState(new Date());
+  const [filterdData, setFilterdData] = useState([]);
+  const data = useContext(DiaryStateContext);
+
+  const onDecreaseMonth = () => {
+    setPivotDate(new Date(pivotDate.getFullYear(), pivotDate.getMonth() - 1));
+  };
+  const onIncreaseMonth = () => {
+    setPivotDate(new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1));
+  };
+  const headerTitle = `${pivotDate.getFullYear()}년 ${
+    pivotDate.getMonth() + 1
+  }월`;
+
+  useEffect(() => {
+    if (data.length >= 1) {
+      const { beginTimeStamp, endTImeStamp } = getMonthRangeByDate(pivotDate);
+      setFilterdData(
+        data.filter((item) => {
+          return item.date >= beginTimeStamp && item.date <= endTImeStamp;
+        })
+      );
+    }
+  }, [data, pivotDate]);
+
+  console.log(filterdData);
+
   return (
-    <div>
-      <Editor
-        onSubmit={() => {
-          alert("작성 완료!");
-        }}
-        initData={{
-          data: new Date().getTime(),
-          emotionId: 1,
-          content: "작성중인 일기",
-        }}
+    <div className="Home">
+      <Header
+        title={headerTitle}
+        leftChild={<Button text={"<"} onClick={onDecreaseMonth} />}
+        rightChild={<Button text={">"} onClick={onIncreaseMonth} />}
       />
+      <DiaryList data={filterdData} />
     </div>
   );
 };
