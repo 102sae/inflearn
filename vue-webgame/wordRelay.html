@@ -9,28 +9,30 @@
 
   <body>
     <div id="root">
-      <word-relay></word-relay>
-      <word-relay></word-relay>
-      <word-relay></word-relay>
+      <word-relay start-word="정민"></word-relay>
+      <word-relay start-word="민달팽이"></word-relay>
+      <word-relay start-word="이름"></word-relay>
     </div>
   </body>
   <!-- 컴포넌트를 만드는 스크립트가 가장 위에 있어야 함 -->
   <script>
+    // 전역 컴포넌트
     Vue.component("word-relay", {
       template: `
-     <div>
-      <div>{{word}}</div>
-        <form v-on:submit="onSubmitForm">
-          <input type="text" ref="answer" v-model="value" />
-          <button type="submit">입력</button>
-        </form>
-        <div>{{result}}</div>
-        </div>
-      `,
+       <div>
+        <div>{{word}}</div>
+          <form v-on:submit="onSubmitForm">
+            <input type="text" ref="answer" v-model="value" />
+            <button type="submit">입력</button>
+          </form>
+          <div>{{result}}</div>
+          </div>
+        `,
+      props: ["startWord"],
       // data는 무조건 함수, 컴포넌트마다 다른 값을 가지게 하기 위해
       data() {
         return {
-          word: "정민",
+          word: this.startWord,
           value: "",
           result: "",
         };
