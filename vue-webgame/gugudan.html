@@ -2,8 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <!-- ref로 input에 focus -->
+    <meta name="viewport" ref="answer "content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>구구단</title>
   </head>
-  <body></body>
+  <body>
+    <div id="root">
+      <div>{{first}} 곱하기 {{second}}는?</div>
+      <form v-on:submit="onSubmit">
+        <!-- v-model이 vue data와 연결해줌. 양방향 바인딩, 자동으로 value 변경 -->
+        <input type="number" v-model="value" />
+        <button type="submit">입력</button>
+      </form>
+      <div>{{result}}</div>
+    </div>
+    </div>  
+  </body>
+  <script>
+    const app = new Vue({
+      el: "#root",
+      data: {
+        first: Math.ceil(Math.random() * 9),
+        second: Math.ceil(Math.random() * 9),
+        value: "",
+        result: "",
+      },
+      methods: {
+        onSubmit(e) {
+            e.preventDefault();
+          if (parseInt(this.value) === this.first * this.second) {
+            this.result = "정답";
+            this.first = Math.ceil(Math.random() * 9);
+            this.second = Math.ceil(Math.random() * 9);
+            this.value = "";
+            this.$refs.answer.focus();
+          } else {
+            this.result = "땡";
+            this.value = "";
+            this.$refs.answer.focus();
+          }
+        },
+      },
+    });
+  </script>
 </html>
