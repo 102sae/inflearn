@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>좋아요</title>
+  </head>
+  <body>
+    <!-- 버튼을 클릭하면 버튼 대신 div만 보여주는 예제 -->
+    <div id="root">
+      <!-- ""에는 js를 사용할 수 있다. -->
+      <div v-if="liked">좋아요 눌렀음</div>
+      <button v-else v-on:click="onClickButton">Like</button>
+    </div>
+  </body>
+  <script>
+    const app = new Vue({
+      el: "#root",
+      /* data: vue가 관리하는 data */
+      data: {
+        liked: false,
+      },
+      methods: {
+        onClickButton() {
+          this.liked = true;
+        },
+      },
+    });
+  </script>
+</html>
