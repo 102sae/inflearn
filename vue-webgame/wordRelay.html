@@ -6,25 +6,34 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>끝말잇기</title>
   </head>
+
   <body>
     <div id="root">
-      <div>
-        <div>{{word}}</div>
+      <word-relay></word-relay>
+      <word-relay></word-relay>
+      <word-relay></word-relay>
+    </div>
+  </body>
+  <!-- 컴포넌트를 만드는 스크립트가 가장 위에 있어야 함 -->
+  <script>
+    Vue.component("word-relay", {
+      template: `
+     <div>
+      <div>{{word}}</div>
         <form v-on:submit="onSubmitForm">
           <input type="text" ref="answer" v-model="value" />
           <button type="submit">입력</button>
         </form>
         <div>{{result}}</div>
-      </div>
-    </div>
-  </body>
-  <script>
-    const app = new Vue({
-      el: "#root",
-      data: {
-        word: "정민",
-        value: "",
-        result: "",
+        </div>
+      `,
+      // data는 무조건 함수, 컴포넌트마다 다른 값을 가지게 하기 위해
+      data() {
+        return {
+          word: "정민",
+          value: "",
+          result: "",
+        };
       },
       methods: {
         onSubmitForm(e) {
@@ -41,6 +50,11 @@
           }
         },
       },
+    });
+  </script>
+  <script>
+    const app = new Vue({
+      el: "#root",
     });
   </script>
 </html>
